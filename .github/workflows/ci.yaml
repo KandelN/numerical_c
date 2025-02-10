@@ -23,8 +23,7 @@ jobs:
         run: find . -type f -name "*.c" ! -path "*/screenshots/*"
 
       - name: Find and Compile C Code
-        run: |
-          find . -type f -name "*.c" ! -path "*/screenshots/*" -exec sh -c 'gcc -o "${1%.c}.out" "$1" -lm' sh {} \;
+        run:  find . -type f -name "*.c" ! -path "*/screenshots/*" -exec gcc -o {}.out {} -lm \;
 
       - name: List Compiled Files
-        run: find . -type f -name "*.out"g
+        run: find . -type f -name "*.out"
