@@ -1,0 +1,28 @@
+name: Handle Release
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  generate:
+    name: Create release -artifacts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+
+      - name: Generate the artifacts
+        uses: skx/github-action-build@v3
+
+      - name: List files for release
+        run: find . -type f -name "*.out"
+
+      - name: Upload the artifacts
+        uses: skx/github-action-publish-binaries@v1.0
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: '*.out'
