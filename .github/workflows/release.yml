@@ -14,13 +14,13 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Generate the artifacts
-        uses: skx/github-action-build@v3
+        uses: skx/github-action-build@master
 
       - name: List files for release
         run: find . -type f -name "*.out"
 
       - name: Upload the artifacts
-        uses: skx/github-action-publish-binaries@v1.0
+        uses: skx/github-action-publish-binaries@master 
 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
