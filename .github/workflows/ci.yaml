@@ -27,3 +27,9 @@ jobs:
 
       - name: List Compiled Files
         run: find . -type f -name "*.out"
+
+      - name: Upload Generated Artifacts
+        uses: actions/upload-artifacts@v2
+        with:
+          name: compiled-binaries
+          path: "*.out"
