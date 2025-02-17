@@ -28,8 +28,14 @@ jobs:
         run: choco install mingw zip
 
       # Compile C code for Linux and Windows
-      - name: List C Files Before Compiling
+      - name: List C Files Before Compiling (Linux)
+        if: matrix.os == 'ubuntu-latest'
         run: find . -type f -name "*.c" ! -path "*/screenshots/*"
+
+      - name: List C Files Before Compiling (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          Get-ChildItem -Recurse -Filter "*.c" -Exclude "screenshots" | ForEach-Object { $_.FullName }
 
       - name: Compile for Linux (Ubuntu)
         if: matrix.os == 'ubuntu-latest'
@@ -37,16 +43,20 @@ jobs:
 
       - name: Compile for Windows (Windows)
         if: matrix.os == 'windows-latest'
-        run: find . -type f -name "*.c" ! -path "*/screenshots/*" -exec gcc -o {}.exe {} -lm \;
+        run: |
+          Get-ChildItem -Recurse -Filter "*.c" -Exclude "screenshots" | ForEach-Object {
+            # Compile the C file using GCC to create an .exe
+            gcc $_.FullName -o "$($_.DirectoryName)\$($_.BaseName).exe" -lm
+          }
 
       # List compiled files
       - name: List Compiled Files
-        run: find . -type f \( -name "*.out" -o -name "*.exe" \)
+        run: git bash -c "find . -type f \( -name "*.out" -o -name "*.exe" \) \;"
 
       # Create ZIP files for Linux and Windows binaries
       - name: Create ZIP for Linux Binaries
         if: matrix.os == 'ubuntu-latest'
-        run: zip -r linux-binaries.zip . -i "*.out" || echo "No linux binaries found"
+        run: tar -czvf linux-binaries.tar.gz *.out || echo "No linux binaries found"
 
       - name: Create ZIP for Windows Binaries (Windows)
         if: matrix.os == 'windows-latest'
@@ -57,5 +67,5 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            linux-binaries.zip
+            linux-binaries.tar.gz
             windows-binaries.zip
