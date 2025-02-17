@@ -35,5 +35,4 @@ jobs:
       - name: Upload artifacts to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: find . -type f -name "*.out"
-          token: ${{ secrets.GITHUB_TOKEN }}
+          files: "**/*.out"
