@@ -64,7 +64,7 @@ jobs:
       # Create ZIP files for Linux and Windows binaries
       - name: Create ZIP for Linux Binaries
         if: matrix.os == 'ubuntu-latest'
-        run:  find . -type f -name "*.out" | tar -czf lnux-binaries.tar.gz -T -
+        run:  find . -type f -name "*.out" | tar -czf linux-binaries.tar.gz -T -
 
       - name: Create ZIP for Windows Binaries (Windows)
         if: matrix.os == 'windows-latest'
