@@ -27,17 +27,17 @@ void main()
         {
             for(i=1;i<=n;i++)
             {
-            if(i!=j)
-            {
-                r = m[i][j]/m[j][j];
-                for(k=1;k<=n+1;k++)
+                if(i!=j)
                 {
-                    m[i][k]=m[i][k]-r*m[j][k];
+                    r = m[i][j]/m[j][j];
+                    for(k=1;k<=n+1;k++)
+                    {
+                        m[i][k]=m[i][k]-r*m[j][k];
+                    }
                 }
             }
         }
     }
-    
     printf("the required values are :\n");
     for(i=1;i<=n;i++)
     {
