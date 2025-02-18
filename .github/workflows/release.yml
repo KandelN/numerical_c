@@ -64,11 +64,11 @@ jobs:
       # Create ZIP files for Linux and Windows binaries
       - name: Create ZIP for Linux Binaries
         if: matrix.os == 'ubuntu-latest'
-        run:  find . -type f -name "*.c" | tar -czf tempzip.tar.gz -T - || echo "No linux binaries found"
+        run:  find . -type f -name "*.c" | tar -czf tempzip.tar.gz -T -
 
       - name: Create ZIP for Windows Binaries (Windows)
         if: matrix.os == 'windows-latest'
-        run: zip -r windows-binaries.zip . -i "*.exe" || echo "No Windows binaries found"
+        run: zip -r windows-binaries.zip . -i "*.exe"
 
       # Upload ZIP files to GitHub Release
       - name: Upload ZIPs to GitHub Release
