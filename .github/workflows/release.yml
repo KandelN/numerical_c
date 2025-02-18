@@ -50,9 +50,11 @@ jobs:
           }
 
       # List compiled files
-      - name: List C Files Before Compiling (Linux)
+      - name: List Binary Files After Compilation (Linux & Windows)
         if: matrix.os == 'ubuntu-latest'
-        run: find . -type f \( -name "*.out" -o -name "*.exe" \)
+        run: |
+          find . -type f -name "*.out"
+          find . -type f -name "*.exe"
 
       # - name: List C Files Before Compiling (Windows)
       #   if: matrix.os == 'windows-latest'
@@ -62,7 +64,7 @@ jobs:
       # Create ZIP files for Linux and Windows binaries
       - name: Create ZIP for Linux Binaries
         if: matrix.os == 'ubuntu-latest'
-        run: find . -type f -name "*.out" | tar -czvf linux-binaries.tar.gz -T || echo "No linux binaries found"
+        run: tar -czvf linux-binaries.tar.gz --wildcards '*.out' || echo "No linux binaries found"
 
       - name: Create ZIP for Windows Binaries (Windows)
         if: matrix.os == 'windows-latest'
